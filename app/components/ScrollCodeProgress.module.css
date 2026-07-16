@@ -1,0 +1,68 @@
+.codeTrack {
+  position: relative;
+  height: 2px;
+  overflow: hidden;
+  padding: 8px;
+  user-select: none;
+
+  font: 800 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.codeFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+}
+
+.codeFill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, #16366a, #16366a);
+
+  /* pick your fill bg */
+
+  /* opacity: 0.8; */
+
+  /* matches track */
+}
+
+.codeFill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to left, #16366a, transparent);
+}
+
+
+/* TEXT LAYER — sits ABOVE bg, with gradient fill */
+.codeOn {
+  position: relative;
+  z-index: 1;
+  /* <-- ensures text is above ::before */
+  color: transparent;
+  background: linear-gradient(90deg, #16366a, #22a8c0, #22c55e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* visibility helpers so it's readable on any bg */
+  -webkit-text-stroke: 0.4px #16366a;
+  /* thin outline */
+
+  background-size: 200% 100%;
+  /* your animation */
+  animation: sweep 9s linear infinite;
+}
+
+@keyframes sweep {
+  to {
+    background-position: -200% 0;
+  }
+}

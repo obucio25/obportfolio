@@ -5,10 +5,34 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "react-router";
+import SiteHeader from "./components/SiteHeader";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { getSupabaseAdmin } from "./lib/supabase.server";
+import { requireAdmin, hasDeviceHintCookie } from "./lib/adminAuth.server";
+
+export async function loader({ request }: { request: Request }) {
+  const admin = await requireAdmin(request);
+  
+  const supabase = getSupabaseAdmin();
+
+  const { data } = await supabase
+    .from("site_settings")
+    .select("value")
+    .eq("key", "header_status")
+    .maybeSingle();
+
+  const showLoginShortcut = Boolean(admin) || hasDeviceHintCookie(request);
+
+  return { 
+    headerStatus: data?.value ?? "Open for work",
+    isAdmin: Boolean(admin),
+    showLoginShortcut,
+  };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +66,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const { headerStatus, isAdmin, showLoginShortcut  } = useLoaderData() as { 
+    headerStatus: string;
+    isAdmin: boolean;
+    showLoginShortcut: boolean;
+  };
+
+  return (
+    <>
+      <SiteHeader 
+        statusText={headerStatus}
+        isAdmin={isAdmin}
+        showLoginShortcut={showLoginShortcut}
+      />
+
+      <main>
+        <Outlet />;
+      </main>
+    </>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

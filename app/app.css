@@ -13,3 +13,48 @@ body {
     color-scheme: dark;
   }
 }
+
+:root {
+  --bg: #fff;
+  --fg: #0f172a;
+  --accent: #3b82f6;
+
+  --btn-bg: rgba(255, 255, 255, 0.6);
+  --btn-border: rgba(0, 0, 0, 0.12);
+  --btn-border-hover: rgba(0, 0, 0, 0.22);
+  --btn-ring: rgba(0, 0, 0, 0.18);
+  --btn-ring-soft: rgba(0, 0, 0, 0.08);
+  --btn-active-bg: rgba(0, 0, 0, 0.06);
+  /* … */
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b1220;
+  --fg: #e2e8f0;
+  --accent: #60a5fa;
+}
+
+.dark {
+  --bg: #0b0f19;
+  --fg: #e6e6e6;
+  --btn-bg: rgba(20, 20, 20, 0.55);
+  --btn-border: rgba(255, 255, 255, 0.16);
+  --btn-border-hover: rgba(255, 255, 255, 0.26);
+  --btn-ring: rgba(255, 255, 255, 0.22);
+  --btn-ring-soft: rgba(255, 255, 255, 0.10);
+  --btn-active-bg: rgba(255, 255, 255, 0.08);
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+section {
+  scroll-margin-top: 80px;
+}
+
+/* if header is sticky */
